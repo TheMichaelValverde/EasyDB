@@ -1,10 +1,5 @@
-//
-//  AnywhereAPI.h
-//  SqliteAnywhere
-//
-//  Created by Michael Valverde on 8/18/14.
-//  Copyright (c) 2014 S3. All rights reserved.
-//
+//  Created by Michael Valverde
+//  MIT Licensed Open Source Project
 
 #ifndef SqliteAnywhere_EasyDBAPI_h
 #define SqliteAnywhere_EasyDBAPI_h
@@ -17,14 +12,10 @@
 using namespace std;
 
 #define SUCCESS(rc) (rc == SQLITE_OK || rc == SQLITE_OK || rc == SQLITE_ROW)
-
 #define VALUE(val)  val.c_str()
-
 #define LENGTH(val) (int)val.size()
 
-
-
-namespace S3
+namespace openS3
 {
     class EasyDB
     {
@@ -47,6 +38,4 @@ namespace S3
         string GetInsertStatement(string tableName, unsigned long &fieldCount);
     };
 }
-
-
 #endif

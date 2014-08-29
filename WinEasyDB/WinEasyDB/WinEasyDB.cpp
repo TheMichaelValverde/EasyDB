@@ -1,12 +1,15 @@
-// WinEasyDB.cpp : Defines the entry point for the console application.
-//
+//  Created by Michael Valverde
+//  MIT Licensed Open Source Project
+
+//This runner will test the features/abilities of the API.
 
 #include "stdafx.h"
 #include "EasyDBAPI.h"
 #include <iostream>
 #include <memory>
+
 using namespace std;
-using namespace S3;
+using namespace openS3;
 
 int _tmain(int argc, _TCHAR* argv[])
 {

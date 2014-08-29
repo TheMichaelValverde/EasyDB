@@ -1,9 +1,5 @@
-//
-//
-//
-//  Created by Michael Valverde on 8/18/14.
-//  Copyright (c) 2014 S3. All rights reserved.
-//
+//  Created by Michael Valverde
+//  MIT Licensed Open Source Project
 
 #include "EasyDBAPI.h"
 #include <thread>
@@ -14,7 +10,7 @@
 #include <shlobj.h>
 
 
-using namespace S3;
+using namespace openS3;
 //Constructor
 EasyDB::EasyDB()
 {
@@ -30,9 +26,12 @@ EasyDB::~EasyDB()
 
 int EasyDB::InitializeDatabase(string dbName)
 {
-    //const char *path = getenv("HOME");
 	char path[MAX_PATH];
-	SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path);
+#if defined(UNIX)
+    const char *path = getenv("HOME");
+#else
+   SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path);
+#endif
 	string fp = std::string(path);
     fp = fp + "/"+dbName;
     return sqlite3_open_v2(fp.c_str(),&db,SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,NULL);

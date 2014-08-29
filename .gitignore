@@ -33,3 +33,5 @@
 *.tlog
 
 WinEasyDB/WinEasyDB/ReadMe.txt
+*.opensdf
+*.sdf
