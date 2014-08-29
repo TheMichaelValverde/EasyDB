@@ -1,15 +1,11 @@
-//
-//  main.cpp
-//  EasyDB
-//
-//  Created by Michael Valverde on 8/27/14.
-//  Copyright (c) 2014 S3. All rights reserved.
+//  Created by Michael Valverde
+//  MIT Licensed Open Source Project
 //
 #include "EasyDBAPI.h"
 #include <iostream>
 #include <memory>
 using namespace std;
-using namespace S3;
+using namespace openS3;
 
 int main(int argc, const char * argv[])
 {

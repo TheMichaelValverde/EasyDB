@@ -1,8 +1,5 @@
-//
-//
-//
-//  Created by Michael Valverde on 8/18/14.
-//  Copyright (c) 2014 S3. All rights reserved.
+//  Created by Michael Valverde
+//  MIT Licensed Open Source Project
 //
 
 #include "EasyDBAPI.h"
@@ -13,7 +10,7 @@
 
 
 
-using namespace S3;
+using namespace openS3;
 //Constructor
 EasyDB::EasyDB()
 {
