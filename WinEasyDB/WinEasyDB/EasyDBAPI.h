@@ -1,8 +1,8 @@
 //  Created by Michael Valverde
 //  MIT Licensed Open Source Project
 
-#ifndef SqliteAnywhere_EasyDBAPI_h
-#define SqliteAnywhere_EasyDBAPI_h
+#ifndef EasyDBAPI_h
+#define EasyDBAPI_h
 
 #include <string>
 #include "sqlite3.h"
