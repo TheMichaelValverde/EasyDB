@@ -21,3 +21,15 @@
 *.exe
 *.out
 *.app
+
+*.ilk
+
+*.pdb
+
+*.idb
+
+*.log
+
+*.tlog
+
+WinEasyDB/WinEasyDB/ReadMe.txt
