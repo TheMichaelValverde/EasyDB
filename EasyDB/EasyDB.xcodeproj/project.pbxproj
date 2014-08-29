@@ -1,0 +1,246 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2AAA9A1919AEA4E5007FA92E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AAA9A1819AEA4E5007FA92E /* main.cpp */; };
+		2AAA9A1B19AEA4E5007FA92E /* EasyDB.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2AAA9A1A19AEA4E5007FA92E /* EasyDB.1 */; };
+		2AAA9A2319AEA53A007FA92E /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 2AAA9A2119AEA53A007FA92E /* sqlite3.c */; };
+		2AAA9A2619AEA57C007FA92E /* EasyDBAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AAA9A2419AEA57C007FA92E /* EasyDBAPI.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2AAA9A1319AEA4E5007FA92E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				2AAA9A1B19AEA4E5007FA92E /* EasyDB.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2AAA9A1519AEA4E5007FA92E /* EasyDB */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EasyDB; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AAA9A1819AEA4E5007FA92E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		2AAA9A1A19AEA4E5007FA92E /* EasyDB.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = EasyDB.1; sourceTree = "<group>"; };
+		2AAA9A2119AEA53A007FA92E /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
+		2AAA9A2219AEA53A007FA92E /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
+		2AAA9A2419AEA57C007FA92E /* EasyDBAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EasyDBAPI.cpp; sourceTree = "<group>"; };
+		2AAA9A2519AEA57C007FA92E /* EasyDBAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyDBAPI.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2AAA9A1219AEA4E5007FA92E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2AAA9A0C19AEA4E5007FA92E = {
+			isa = PBXGroup;
+			children = (
+				2AAA9A1719AEA4E5007FA92E /* EasyDB */,
+				2AAA9A1619AEA4E5007FA92E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2AAA9A1619AEA4E5007FA92E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2AAA9A1519AEA4E5007FA92E /* EasyDB */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2AAA9A1719AEA4E5007FA92E /* EasyDB */ = {
+			isa = PBXGroup;
+			children = (
+				2AAA9A2419AEA57C007FA92E /* EasyDBAPI.cpp */,
+				2AAA9A2519AEA57C007FA92E /* EasyDBAPI.h */,
+				2AAA9A2119AEA53A007FA92E /* sqlite3.c */,
+				2AAA9A2219AEA53A007FA92E /* sqlite3.h */,
+				2AAA9A1819AEA4E5007FA92E /* main.cpp */,
+				2AAA9A1A19AEA4E5007FA92E /* EasyDB.1 */,
+			);
+			path = EasyDB;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2AAA9A1419AEA4E5007FA92E /* EasyDB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AAA9A1E19AEA4E5007FA92E /* Build configuration list for PBXNativeTarget "EasyDB" */;
+			buildPhases = (
+				2AAA9A1119AEA4E5007FA92E /* Sources */,
+				2AAA9A1219AEA4E5007FA92E /* Frameworks */,
+				2AAA9A1319AEA4E5007FA92E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EasyDB;
+			productName = EasyDB;
+			productReference = 2AAA9A1519AEA4E5007FA92E /* EasyDB */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2AAA9A0D19AEA4E5007FA92E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = S3;
+			};
+			buildConfigurationList = 2AAA9A1019AEA4E5007FA92E /* Build configuration list for PBXProject "EasyDB" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2AAA9A0C19AEA4E5007FA92E;
+			productRefGroup = 2AAA9A1619AEA4E5007FA92E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2AAA9A1419AEA4E5007FA92E /* EasyDB */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2AAA9A1119AEA4E5007FA92E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2AAA9A1919AEA4E5007FA92E /* main.cpp in Sources */,
+				2AAA9A2319AEA53A007FA92E /* sqlite3.c in Sources */,
+				2AAA9A2619AEA57C007FA92E /* EasyDBAPI.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		2AAA9A1C19AEA4E5007FA92E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		2AAA9A1D19AEA4E5007FA92E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		2AAA9A1F19AEA4E5007FA92E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2AAA9A2019AEA4E5007FA92E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2AAA9A1019AEA4E5007FA92E /* Build configuration list for PBXProject "EasyDB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AAA9A1C19AEA4E5007FA92E /* Debug */,
+				2AAA9A1D19AEA4E5007FA92E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2AAA9A1E19AEA4E5007FA92E /* Build configuration list for PBXNativeTarget "EasyDB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2AAA9A1F19AEA4E5007FA92E /* Debug */,
+				2AAA9A2019AEA4E5007FA92E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2AAA9A0D19AEA4E5007FA92E /* Project object */;
+}
