@@ -9,17 +9,22 @@ using namespace openS3;
 
 int main(int argc, const char * argv[])
 {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    std::cout << "EasyDB says Hello!\n";
+
+    //using a unique_ptr so we don't have to worry about memory management of the EasyDB class.
     unique_ptr<EasyDB> db(new EasyDB);
     db->InitializeDatabase("test.db");
-//uncomment 1st time to create table
-//    vector<string> fields;
-//    fields.push_back("FirstName");
-//    fields.push_back("LastName");
-//    fields.push_back("PhoneNumber");
-//    fields.push_back("Country");
-//    //db->InitializeTable("TestTable", fields);
+    
+
+    vector<string> fields;
+    fields.push_back("FirstName");
+    fields.push_back("LastName");
+    fields.push_back("PhoneNumber");
+    fields.push_back("Country");
+    
+    //change overwrite param from false to true to recreate the table.
+    cout<<"Creating the table - overwrite = true"<<endl;
+    db->CreateTable("TestTable", fields, true);
     
     cout<<"Adding a record!"<<endl;
     
@@ -28,6 +33,8 @@ int main(int argc, const char * argv[])
     record.push_back("Valverde");
     record.push_back("555555555");
     record.push_back("USA");
+
+    cout<<"Retrieving a record based on WhereClause value"<<endl;
     
     db->AddRecord("TestTable",record);
     vector<string> rec = db->GetRecord("TestTable", "FirstName = 'Michael'");
@@ -39,12 +46,8 @@ int main(int argc, const char * argv[])
         else cout<<endl;
         y++;
     }
-    
-    
     cout<<"Adding records!"<<endl;
     cout<<endl;
-    
-    
     vector<vector<string>> records;
     rec.clear();
     rec.push_back("Jason");
@@ -68,7 +71,7 @@ int main(int argc, const char * argv[])
     //example delete record
     //db->DeleteRecord("TestTable", "LastName = 'Valverde'");
     //db->DeleteRecords("TestTable");
-    
+    cout<<"Retreived all records in the table"<<endl;
     vector<vector<string>> recs = db->GetRecords("TestTable");
     for(auto row:recs)
     {
@@ -81,7 +84,16 @@ int main(int argc, const char * argv[])
         }
         cout<<endl;
     }
-    
+    //return the 2 record in the table.
+    vector<string> arec = db->GetRecord("TestTable",2);
+    if(arec.size()>0)
+    {
+        for(auto vStr: arec)
+        {
+            cout<<vStr<<endl;
+        }
+        cout<<endl;
+    }
     db->DeleteRecords("TestTable");
     
     return 0;

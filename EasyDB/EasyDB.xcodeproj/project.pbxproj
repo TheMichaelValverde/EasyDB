@@ -32,7 +32,7 @@
 		2AAA9A1A19AEA4E5007FA92E /* EasyDB.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = EasyDB.1; sourceTree = "<group>"; };
 		2AAA9A2119AEA53A007FA92E /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		2AAA9A2219AEA53A007FA92E /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
-		2AAA9A2419AEA57C007FA92E /* EasyDBAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EasyDBAPI.cpp; sourceTree = "<group>"; };
+		2AAA9A2419AEA57C007FA92E /* EasyDBAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EasyDBAPI.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		2AAA9A2519AEA57C007FA92E /* EasyDBAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyDBAPI.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,8 +169,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MAC_OS = "\"MAC_OS\"";
+				"MAC_OS[arch=*]" = "";
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				OTHER_CFLAGS = "";
+				SDKROOT = "";
 			};
 			name = Debug;
 		};
@@ -202,13 +205,24 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				SDKROOT = macosx;
+				MAC_OS = "\"MAC_OS\"";
+				OTHER_CFLAGS = "";
+				SDKROOT = "";
 			};
 			name = Release;
 		};
 		2AAA9A1F19AEA4E5007FA92E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "";
+				"GCC_VERSION[sdk=macosx10.9][arch=x86_64]" = "";
+				"INFOPLIST_FILE[sdk=*]" = "";
+				MAC_OS = MAC_OS;
+				"MAC_OS[arch=*]" = "";
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(MAC_OS)",
+					"$(OTHER_CFLAGS)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -216,6 +230,8 @@
 		2AAA9A2019AEA4E5007FA92E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MAC_OS = "";
+				"MAC_OS[arch=*]" = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -239,6 +255,7 @@
 				2AAA9A2019AEA4E5007FA92E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

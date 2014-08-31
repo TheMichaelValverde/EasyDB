@@ -8,15 +8,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+//windows required api
+#ifndef __MAC_OS_X_VERSION_MAX_ALLOWED
+  #include <Windows.h>
+  #include <shlobj.h>
+#endif
 
 using namespace openS3;
-//Constructor
+
+//class implementation
+//Default Constructor
 EasyDB::EasyDB()
 {
-    //sqlite3_open_v2(dbName.c_str(),&db,SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,NULL);
 }
 
+//Default Destructor
 EasyDB::~EasyDB()
 {
 	if (this->db != NULL)
@@ -27,11 +33,22 @@ EasyDB::~EasyDB()
 
 int EasyDB::InitializeDatabase(string dbName)
 {
-        const char *path = getenv("HOME");
+#ifdef __MAC_OS_X_VERSION_MAX_ALLOWED
+    const char *path = getenv("HOME");
+#else //windows
+   SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path);
+#endif
         string fp = std::string(path);
         fp = fp + "/"+dbName;
         return sqlite3_open_v2(fp.c_str(),&db,SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,NULL);
-    
+}
+
+int EasyDB::InitializeDatabase(string dbName, string folderPath)
+{
+    string fp = std::string(folderPath);
+    fp = fp + "/"+dbName;
+    return sqlite3_open_v2(fp.c_str(),&db,SQLITE_OPEN_READWRITE |
+                           SQLITE_OPEN_CREATE,NULL);
 }
 
 vector<vector<string>> EasyDB::GetRecords(string tableName)
@@ -95,6 +112,13 @@ vector<string> EasyDB::GetRecord(string tableName, string whereClause)
     return results;
 }
 
+
+vector<string> EasyDB::GetRecord(string tableName, int rowIndex)
+{
+    auto vStr = std::to_string(rowIndex);
+    return this->GetRecord(tableName, "RecordNumber = "+vStr);
+}
+
 int EasyDB::DeleteRecords(string tableName)
 {
     int rc = 0;
@@ -144,18 +168,33 @@ int EasyDB::AddRecords(string tableName, vector<vector<string>> records)
 }
 
 //Initialize a new table (overwriting old one if exists)
-int EasyDB::InitializeTable(string tableName, vector<string> fieldList)
+//Create table has default parameter of overwrite = true
+int EasyDB::CreateTable(string tableName, vector<string> fieldList, bool overwrite)
 {
-  	int rc = 0;
+    int rc = 0;
+    if(!overwrite)
+    {
+        bool exists = false;
+        rc = TableExists(tableName, exists);
+        if(SUCCESS(rc))
+        {
+            if(exists)
+                return SQLITE_OK;
+        }
+        else
+            return rc;
+    }
+    //uppercase tablename
+    transform(tableName.begin(),tableName.end(),tableName.begin(),toupper);
 	string dSql("DROP TABLE IF EXISTS " + tableName + ";");
 	string zSql("CREATE TABLE IF NOT EXISTS " + tableName + " (RecordNumber INTEGER NOT NULL PRIMARY KEY ");
-	for (vector<string>::iterator it = fieldList.begin(); it != fieldList.end(); ++it)
+    for( auto rec : fieldList)
 	{
-		zSql = zSql + ", " + *it + " TEXT ";
+		zSql = zSql + ", " + rec + " TEXT ";
 	}
 	zSql = zSql + ");";
-	rc = sqlite3_exec(db, dSql.c_str(), NULL, NULL, NULL);
-	rc = sqlite3_exec(db, zSql.c_str(), NULL, NULL, NULL);
+	rc = sqlite3_exec(db, VALUE(dSql), NULL, NULL, NULL);
+	rc = sqlite3_exec(db, VALUE(zSql), NULL, NULL, NULL);
 	return rc;
 }
 
@@ -182,7 +221,6 @@ int EasyDB::AddRecord(string tableName, vector<string> values)
 	}
 	return rc;
 }
-
 
 string EasyDB::GetInsertStatement(string tableName, unsigned long &fieldCount)
 {
@@ -220,3 +258,23 @@ int EasyDB::TryStep(sqlite3_stmt* &stmt, int t, int r)
 	return rc;
 }
 
+//Check if table exists
+int EasyDB::TableExists(string tableName, bool &exists)
+{
+    exists = false;
+    int rc = 0;
+    //sql statement to check if table exist regardless of "case"
+    string zSql = "SELECT name FROM sqlite_master WHERE type='table' AND name='"+tableName+"' COLLATE NOCASE";
+    sqlite3_stmt *statement;
+    rc = sqlite3_prepare_v2(db, VALUE(zSql), -1, &statement, 0);
+    if(SUCCESS(rc))
+    {
+        int rc = sqlite3_step(statement);
+        if(rc == SQLITE_ROW)
+        {
+          exists = true;
+        }
+        sqlite3_finalize(statement);
+    }
+    return rc;
+}
