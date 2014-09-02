@@ -12,6 +12,7 @@
 #ifndef __MAC_OS_X_VERSION_MAX_ALLOWED
   #include <Windows.h>
   #include <shlobj.h>
+  #include <algorithm>
 #endif
 
 using namespace openS3;
@@ -36,7 +37,8 @@ int EasyDB::InitializeDatabase(string dbName)
 #ifdef __MAC_OS_X_VERSION_MAX_ALLOWED
     const char *path = getenv("HOME");
 #else //windows
-   SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path);
+	CHAR path[MAX_PATH];
+	SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path);
 #endif
         string fp = std::string(path);
         fp = fp + "/"+dbName;
@@ -185,7 +187,7 @@ int EasyDB::CreateTable(string tableName, vector<string> fieldList, bool overwri
             return rc;
     }
     //uppercase tablename
-    transform(tableName.begin(),tableName.end(),tableName.begin(),toupper);
+    transform(tableName.begin(),tableName.end(),tableName.begin(), toupper);
 	string dSql("DROP TABLE IF EXISTS " + tableName + ";");
 	string zSql("CREATE TABLE IF NOT EXISTS " + tableName + " (RecordNumber INTEGER NOT NULL PRIMARY KEY ");
     for( auto rec : fieldList)

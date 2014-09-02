@@ -96,6 +96,8 @@ int main(int argc, const char * argv[])
     }
     db->DeleteRecords("TestTable");
     
+	char ch;
+	cin >> ch;
     return 0;
 }
 
