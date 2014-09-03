@@ -280,3 +280,18 @@ int EasyDB::TableExists(string tableName, bool &exists)
     }
     return rc;
 }
+
+
+int EasyDB::AddIndex(string tableName, string columnName, SortOrder sortOrder)
+{
+    string zSql = "CREATE INDEX IDX_"+tableName+"_"+columnName+" on "+tableName+"("+columnName+");";
+    int rc = sqlite3_exec(db, VALUE(zSql), NULL, NULL, NULL);
+    return rc;
+}
+
+int EasyDB::RemoveIndex(string tableName, string columnName)
+{
+    string zSql = "DROP INDEX IDX_"+tableName+"_"+columnName+";";
+    int rc = sqlite3_exec(db, VALUE(zSql), NULL, NULL, NULL);
+    return rc;
+}

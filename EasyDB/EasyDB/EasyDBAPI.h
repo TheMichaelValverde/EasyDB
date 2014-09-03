@@ -28,6 +28,7 @@ using namespace std;
 
 #define LENGTH(val) (int)val.size()
 
+enum SortOrder { Ascending = 1, Descending = 2 };
 
 
 namespace openS3
@@ -40,6 +41,8 @@ namespace openS3
         int InitializeDatabase(string dbName);
         int InitializeDatabase(string dbName, string folderPath);
         int CreateTable( string tableName, vector<string> fieldList, bool overwrite = true);
+        int AddIndex(string tableName, string columnName, SortOrder sortOrder);
+        int RemoveIndex(string tableName, string columnName);
         int AddRecord(string tableName, vector<string> values);
         int AddRecords(string tableName, vector<vector<string>> records);
         vector<string> GetFieldNames(string tableName);

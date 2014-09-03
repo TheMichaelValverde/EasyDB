@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "247"
             endingLineNumber = "247"
-            landmarkName = "EasyDB::TableExists(string tableName, bool &amp;exists)"
+            landmarkName = "EasyDB::GetInsertStatement(string tableName, unsigned long &amp;fieldCount)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "158"
             endingLineNumber = "158"
-            landmarkName = "EasyDB::CreateTable(string tableName, vector&lt;string&gt; fieldList, bool overwrite)"
+            landmarkName = "EasyDB::GetFieldNames(string tableName)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
