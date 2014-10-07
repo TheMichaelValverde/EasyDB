@@ -32,7 +32,7 @@ EasyDB::~EasyDB()
 	}
 }
 
-int EasyDB::InitializeDatabase(string dbName)
+int EasyDB::InitializeDatabase(const string & dbName)
 {
 #ifdef __MAC_OS_X_VERSION_MAX_ALLOWED
     const char *path = getenv("HOME");
@@ -40,39 +40,44 @@ int EasyDB::InitializeDatabase(string dbName)
 	CHAR path[MAX_PATH];
 	SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path);
 #endif
-        string fp = std::string(path);
-        fp = fp + "/"+dbName;
-        return sqlite3_open_v2(fp.c_str(),&db,SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,NULL);
+    string fp = std::string(path);
+    fp = fp + "/"+dbName;
+	return sqlite3_open_v2(fp.c_str(), &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
 }
 
-int EasyDB::InitializeDatabase(string dbName, string folderPath)
+int EasyDB::InitializeDatabase(const string & dbName, const string & folderPath)
 {
-    string fp = std::string(folderPath);
-    fp = fp + "/"+dbName;
+	string fp;
+	if (folderPath.empty())
+		fp = dbName;
+	else
+		fp = folderPath + "/" + dbName;
     return sqlite3_open_v2(fp.c_str(),&db,SQLITE_OPEN_READWRITE |
                            SQLITE_OPEN_CREATE,NULL);
 }
 
-vector<vector<string>> EasyDB::GetRecords(string tableName)
+int EasyDB::GetRecords(const string & tableName, vector<vector<string>> & records)
 {
     sqlite3_stmt *statement;
-    vector<vector<string> > results;
     string query("SELECT * FROM "+tableName+";");
-    if(sqlite3_prepare_v2(db, VALUE(query), -1, &statement, 0) == SQLITE_OK)
+	int rc = sqlite3_prepare_v2(db, VALUE(query), -1, &statement, 0);
+    if(rc == SQLITE_OK)
     {
         int cols = sqlite3_column_count(statement);
         int result = 0;
         while(true)
         {
-            result = sqlite3_step(statement);
-            if(result == SQLITE_ROW)
+            rc = sqlite3_step(statement);
+            if(rc == SQLITE_ROW)
             {
                 vector<string> values;
                 for(int col = 0; col < cols; col++)
                 {
-                    values.push_back((char*)sqlite3_column_text(statement, col));
+					char * colText = (char*)sqlite3_column_text(statement, col);
+					if (colText != NULL)
+						values.push_back(colText);
                 }
-                results.push_back(values);
+				records.push_back(values);
             }
             else
             {
@@ -81,26 +86,28 @@ vector<vector<string>> EasyDB::GetRecords(string tableName)
         }
         sqlite3_finalize(statement);
     }
-    return results;
+    return rc;
 }
 
-vector<string> EasyDB::GetRecord(string tableName, string whereClause)
+int EasyDB::GetRecord(const string & tableName, const string & whereClause, vector<string> & record)
 {
     sqlite3_stmt *statement;
-    vector<string> results;
     string query("SELECT * FROM "+tableName+" WHERE "+whereClause);
-    if(sqlite3_prepare_v2(db, VALUE(query), -1, &statement, 0) == SQLITE_OK)
+	int rc = sqlite3_prepare_v2(db, VALUE(query), -1, &statement, 0);
+    if(rc == SQLITE_OK)
     {
         int cols = sqlite3_column_count(statement);
         int result = 0;
         while(true)
         {
-            result = sqlite3_step(statement);
-            if(result == SQLITE_ROW)
+            rc = sqlite3_step(statement);
+            if(rc == SQLITE_ROW)
             {
                 for(int col = 0; col < cols; col++)
                 {
-                    results.push_back((char*)sqlite3_column_text(statement, col));
+					char * colStr = (char*)sqlite3_column_text(statement, col);
+					if ( colStr != NULL)
+						record.push_back(colStr);
                 }
             }
             else
@@ -111,17 +118,17 @@ vector<string> EasyDB::GetRecord(string tableName, string whereClause)
         sqlite3_finalize(statement);
     }
     string error = sqlite3_errmsg(db);
-    return results;
+    return rc;
 }
 
 
-vector<string> EasyDB::GetRecord(string tableName, int rowIndex)
+int EasyDB::GetRecord(const string & tableName, int rowIndex, vector<string> & record)
 {
     auto vStr = std::to_string(rowIndex);
-    return this->GetRecord(tableName, "RecordNumber = "+vStr);
+    return this->GetRecord(tableName, "RecordNumber = "+vStr, record);
 }
 
-int EasyDB::DeleteRecords(string tableName)
+int EasyDB::DeleteRecords(const string & tableName)
 {
     int rc = 0;
 	string dSql("DELETE FROM " + tableName + ";");
@@ -129,7 +136,7 @@ int EasyDB::DeleteRecords(string tableName)
 	return rc;
 }
 
-int EasyDB::DeleteRecord(string tableName, string whereClause)
+int EasyDB::DeleteRecord(const string & tableName, const string & whereClause)
 {
     int rc = 0;
 	string dSql("DELETE FROM " + tableName + " WHERE "+whereClause+";");
@@ -137,9 +144,8 @@ int EasyDB::DeleteRecord(string tableName, string whereClause)
 	return rc;
 }
 
-vector<string> EasyDB::GetFieldNames(string tableName)
+int EasyDB::GetFieldNames(const string & tableName, vector<string> & fieldNames)
 {
-    vector<string> fieldList;
 	int rc = 0;
 	sqlite3_stmt* stmt;
 	string zSql("pragma table_info('" + tableName + "');");
@@ -151,15 +157,15 @@ vector<string> EasyDB::GetFieldNames(string tableName)
 		{
 			const unsigned char* ptr = sqlite3_column_text(stmt, 1);
 			string tmp = (char*)ptr;
-			fieldList.push_back(tmp);
+			fieldNames.push_back(tmp);
 			rc = TryStep(stmt, 100, 10);
 		}
 	}
 	sqlite3_finalize(stmt);
-	return fieldList;
+	return rc;
 }
 
-int EasyDB::AddRecords(string tableName, vector<vector<string>> records)
+int EasyDB::AddRecords(const string & tableName, vector<vector<string>> records)
 {
     int rc = 0;
 	for(auto rec:records)
@@ -171,7 +177,7 @@ int EasyDB::AddRecords(string tableName, vector<vector<string>> records)
 
 //Initialize a new table (overwriting old one if exists)
 //Create table has default parameter of overwrite = true
-int EasyDB::CreateTable(string tableName, vector<string> fieldList, bool overwrite)
+int EasyDB::CreateTable(const string & tableName, vector<string> & fieldList, const bool & overwrite)
 {
     int rc = 0;
     if(!overwrite)
@@ -187,9 +193,10 @@ int EasyDB::CreateTable(string tableName, vector<string> fieldList, bool overwri
             return rc;
     }
     //uppercase tablename
-    transform(tableName.begin(),tableName.end(),tableName.begin(), toupper);
-	string dSql("DROP TABLE IF EXISTS " + tableName + ";");
-	string zSql("CREATE TABLE IF NOT EXISTS " + tableName + " (RecordNumber INTEGER NOT NULL PRIMARY KEY ");
+	string upperTableNanme(tableName);
+	transform(upperTableNanme.begin(), upperTableNanme.end(), upperTableNanme.begin(), toupper);
+	string dSql("DROP TABLE IF EXISTS " + upperTableNanme + ";");
+	string zSql("CREATE TABLE IF NOT EXISTS " + upperTableNanme + " (RecordNumber INTEGER NOT NULL PRIMARY KEY ");
     for( auto rec : fieldList)
 	{
 		zSql = zSql + ", " + rec + " TEXT ";
@@ -200,7 +207,7 @@ int EasyDB::CreateTable(string tableName, vector<string> fieldList, bool overwri
 	return rc;
 }
 
-int EasyDB::AddRecord(string tableName, vector<string> values)
+int EasyDB::AddRecord(const string & tableName, vector<string> values)
 {
   	int rc = 0;
 	sqlite3_stmt* stmt;
@@ -210,26 +217,39 @@ int EasyDB::AddRecord(string tableName, vector<string> values)
 	if (SUCCESS(rc))
 	{
 		sqlite3_bind_text(stmt, 1, VALUE(tableName), LENGTH(tableName), SQLITE_TRANSIENT);
-		for (int i = 1; i < fieldCount; i++)
+		auto numValues = 0u;
+		if (values.size() <= fieldCount-1)
+			numValues = values.size();
+		else
+			numValues = fieldCount;
+
+		for (auto i = 0u; i < numValues; i++)
 		{
-			string item = values[i - 1];
+			string item = values[i];
 			if (item.size() == 0)
-				sqlite3_bind_null(stmt, i);
+				sqlite3_bind_null(stmt, i+1);
 			else
-				sqlite3_bind_text(stmt, i, VALUE(item), LENGTH(item), SQLITE_TRANSIENT);
+				sqlite3_bind_text(stmt, i+1, VALUE(item), LENGTH(item), SQLITE_TRANSIENT);
 		}
+
+		for (unsigned int i = numValues; i < fieldCount; i++)
+		{
+			string item = ""; 
+			sqlite3_bind_text(stmt, i+1, VALUE(item), LENGTH(item), SQLITE_TRANSIENT);
+		}
+
 		rc = this->TryStep(stmt, 100, 10);
 		rc = sqlite3_finalize(stmt);
 	}
 	return rc;
 }
 
-string EasyDB::GetInsertStatement(string tableName, unsigned long &fieldCount)
+string EasyDB::GetInsertStatement(const string & tableName, unsigned long &fieldCount)
 {
 	vector<string> fieldNames;
 	string tmp = "INSERT INTO " + tableName + " (";
 	string zSql(tmp.begin(), tmp.end());
-	fieldNames = this->GetFieldNames(tableName);
+	this->GetFieldNames(tableName, fieldNames);
 	for(auto name:fieldNames)
     {
         if(name.compare("RecordNumber")==0) continue;
@@ -238,8 +258,13 @@ string EasyDB::GetInsertStatement(string tableName, unsigned long &fieldCount)
 	zSql = zSql.substr(0, zSql.size() - 2);
 	zSql.append(") VALUES (");
 	zSql.append("?");
-	fieldCount = fieldNames.size();
-	for (int i = 3; i < fieldCount; i++)
+	fieldCount = static_cast<unsigned char>(fieldNames.size());
+	if (fieldCount <= 2)
+	{
+		zSql.append(");");
+		return zSql;
+	}
+	for (unsigned int i = 3; i < fieldCount; i++)
 	{
 		zSql.append(",?");
 	}
@@ -261,7 +286,7 @@ int EasyDB::TryStep(sqlite3_stmt* &stmt, int t, int r)
 }
 
 //Check if table exists
-int EasyDB::TableExists(string tableName, bool &exists)
+int EasyDB::TableExists(const string & tableName, bool &exists)
 {
     exists = false;
     int rc = 0;
@@ -282,14 +307,14 @@ int EasyDB::TableExists(string tableName, bool &exists)
 }
 
 
-int EasyDB::AddIndex(string tableName, string columnName, SortOrder sortOrder)
+int EasyDB::AddIndex(const string & tableName, const string & columnName, const SortOrder & sortOrder)
 {
     string zSql = "CREATE INDEX IDX_"+tableName+"_"+columnName+" on "+tableName+"("+columnName+");";
     int rc = sqlite3_exec(db, VALUE(zSql), NULL, NULL, NULL);
     return rc;
 }
 
-int EasyDB::RemoveIndex(string tableName, string columnName)
+int EasyDB::RemoveIndex(const string & tableName, const string & columnName)
 {
     string zSql = "DROP INDEX IDX_"+tableName+"_"+columnName+";";
     int rc = sqlite3_exec(db, VALUE(zSql), NULL, NULL, NULL);

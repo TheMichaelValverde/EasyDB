@@ -37,7 +37,8 @@ int main(int argc, const char * argv[])
     cout<<"Retrieving a record based on WhereClause value"<<endl;
     
     db->AddRecord("TestTable",record);
-    vector<string> rec = db->GetRecord("TestTable", "FirstName = 'Michael'");
+	vector<string> rec;
+	db->GetRecord("TestTable", "FirstName = 'Michael'", rec);
     int y = 0;
     for(auto row:rec)
     {
@@ -72,7 +73,8 @@ int main(int argc, const char * argv[])
     //db->DeleteRecord("TestTable", "LastName = 'Valverde'");
     //db->DeleteRecords("TestTable");
     cout<<"Retreived all records in the table"<<endl;
-    vector<vector<string>> recs = db->GetRecords("TestTable");
+	vector<vector<string>> recs;
+	db->GetRecords("TestTable", recs);
     for(auto row:recs)
     {
         int x = 1;
@@ -85,7 +87,8 @@ int main(int argc, const char * argv[])
         cout<<endl;
     }
     //return the 2 record in the table.
-    vector<string> arec = db->GetRecord("TestTable",2);
+	vector<string> arec;
+	db->GetRecord("TestTable", 2, arec);
     if(arec.size()>0)
     {
         for(auto vStr: arec)
