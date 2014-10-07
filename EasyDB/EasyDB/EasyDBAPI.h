@@ -51,6 +51,10 @@ namespace openS3
 		int GetRecord(const string & tableName, int rowIndex, vector<string> & record);
         int DeleteRecords(const string & tableName);
         int DeleteRecord(const string & tableName, const string & whereClause);
+		int AddColumn(const string & tableName, const string & columnName);
+		unsigned int GetNumColumns(const string & tableName);
+		unsigned int GetNumRows(const string & tableName);
+		int DeleteTable(const string & tableName);
 		int TableExists(const string & tableName, bool &exists);
         
     protected:

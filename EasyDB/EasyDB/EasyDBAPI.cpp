@@ -320,3 +320,49 @@ int EasyDB::RemoveIndex(const string & tableName, const string & columnName)
     int rc = sqlite3_exec(db, VALUE(zSql), NULL, NULL, NULL);
     return rc;
 }
+
+int EasyDB::AddColumn(const string & tableName, const string & columnName)
+{
+	bool exists = false;
+	int rc = TableExists(tableName, exists);
+	if (SUCCESS(rc))
+	{
+		if (!exists)
+			return rc;
+
+		string zSql("ALTER TABLE " + tableName + " ADD " + columnName + " TEXT");
+		rc = sqlite3_exec(db, VALUE(zSql), NULL, NULL, NULL);
+	}
+	return rc;
+}
+
+unsigned int EasyDB::GetNumColumns(const string & tableName)
+{
+	int cols = 0;
+	sqlite3_stmt *statement;
+	string query("SELECT * FROM " + tableName + ";");
+	if (sqlite3_prepare_v2(db, VALUE(query), -1, &statement, 0) == SQLITE_OK)
+		cols = sqlite3_column_count(statement);
+	return cols;
+}
+
+unsigned int EasyDB::GetNumRows(const string & tableName)
+{
+	int rows = 0;
+	sqlite3_stmt *statement;
+	string query("SELECT COUNT(*) FROM " + tableName + ";");
+	if (sqlite3_prepare_v2(db, VALUE(query), -1, &statement, 0) == SQLITE_OK)
+	{
+		while (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			rows = sqlite3_column_int(statement, 0);
+		}
+	}
+	return rows;
+}
+
+int EasyDB::DeleteTable(const string & tableName)
+{
+	string zSql("DROP TABLE " + tableName);
+	return sqlite3_exec(db, VALUE(zSql), NULL, NULL, NULL);
+}
