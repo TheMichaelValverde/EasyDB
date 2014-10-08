@@ -38,25 +38,29 @@ namespace openS3
     public:
         EasyDB();
         ~EasyDB();
-        int InitializeDatabase(string dbName);
-        int InitializeDatabase(string dbName, string folderPath);
-        int CreateTable( string tableName, vector<string> fieldList, bool overwrite = true);
-        int AddIndex(string tableName, string columnName, SortOrder sortOrder);
-        int RemoveIndex(string tableName, string columnName);
-        int AddRecord(string tableName, vector<string> values);
-        int AddRecords(string tableName, vector<vector<string>> records);
-        vector<string> GetFieldNames(string tableName);
-        vector<vector<string>> GetRecords(string tableName);
-        vector<string> GetRecord(string tableName, string whereClause);
-        vector<string> GetRecord(string tableName, int rowIndex);
-        int DeleteRecords(string tableName);
-        int DeleteRecord(string tableName, string whereClause);
+        int InitializeDatabase(const string & dbName);
+        int InitializeDatabase(const string & dbName, const string & folderPath);
+        int CreateTable(const string & tableName, vector<string> & fieldList, const bool & overwrite = true);
+        int AddIndex(const string & tableName, const string & columnName, const SortOrder & sortOrder);
+        int RemoveIndex(const string & tableName, const string & columnName);
+        int AddRecord(const string & tableName, vector<string> values);
+        int AddRecords(const string & tableName, vector<vector<string>> records);
+		int GetFieldNames(const string & tableName, vector<string> & fieldNames);
+		int GetRecords(const string & tableName, vector<vector<string>> & records);
+		int GetRecord(const string & tableName, const string & whereClause, vector<string> & record);
+		int GetRecord(const string & tableName, int rowIndex, vector<string> & record);
+        int DeleteRecords(const string & tableName);
+        int DeleteRecord(const string & tableName, const string & whereClause);
+		int AddColumn(const string & tableName, const string & columnName);
+		unsigned int GetNumColumns(const string & tableName);
+		unsigned int GetNumRows(const string & tableName);
+		int DeleteTable(const string & tableName);
+		int TableExists(const string & tableName, bool &exists);
         
-    private:
+    protected:
         sqlite3* db;
         int TryStep(sqlite3_stmt* &stmt, int t, int r);
-        string GetInsertStatement(string tableName, unsigned long &fieldCount);
-        int TableExists(string tableName, bool &exists);
+        string GetInsertStatement(const string & tableName, unsigned long &fieldCount);
     };
 }
 
